@@ -1,0 +1,500 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plastic Surgery - IELTS Speaking Practice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .timer-progress {
+            transition: stroke-dashoffset 1s linear;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-teal-600 text-white p-2.5 rounded-xl shadow-sm">
+                    <i class="fa-solid fa-comments text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-slate-900 leading-tight">SpeakPro AI</h1>
+                    <p class="text-xs text-slate-500">IELTS Practice: Plastic Surgery</p>
+                </div>
+            </div>
+            <div class="text-xs bg-teal-50 text-teal-700 px-3 py-1.5 rounded-full font-medium border border-teal-200/60">
+                <i class="fa-solid fa-sparkles mr-1"></i> Gemini 3 Flash Evaluation
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-grow flex flex-col gap-6">
+
+        <!-- Question Section -->
+        <section class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-teal-500/5 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-semibold text-teal-600 uppercase tracking-wider bg-teal-50 px-2.5 py-1 rounded-md">
+                    Discussion Topic
+                </span>
+                <button id="nextQuestionBtn" class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-teal-600 transition-colors">
+                    <i class="fa-solid fa-shuffle"></i>
+                    <span>Random Question</span>
+                </button>
+            </div>
+
+            <h2 id="questionText" class="text-xl md:text-2xl font-bold text-slate-800 my-2 leading-relaxed">
+                Click below to start your practice session!
+            </h2>
+        </section>
+
+        <!-- Recording / Speaking Section -->
+        <section class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col gap-6">
+            
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-4 border-b border-slate-100">
+                <!-- Circular Countdown Timer -->
+                <div class="relative flex items-center justify-center">
+                    <svg class="w-32 h-32 transform -rotate-90">
+                        <circle cx="64" cy="64" r="56" stroke="#f1f5f9" stroke-width="8" fill="transparent" />
+                        <circle id="timerCircle" cx="64" cy="64" r="56" stroke="#0d9488" stroke-width="8" 
+                                fill="transparent" stroke-dasharray="351.85" stroke-dashoffset="0" class="timer-progress" />
+                    </svg>
+                    <div class="absolute text-center">
+                        <span id="timerDisplay" class="text-3xl font-bold text-slate-800 tracking-tight">60</span>
+                        <span class="block text-[10px] text-slate-400 uppercase tracking-wider">Seconds</span>
+                    </div>
+                </div>
+
+                <!-- Control Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-3 w-full md:w-auto">
+                    <button id="startBtn" class="flex-1 md:flex-initial bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-xl font-medium shadow-md shadow-teal-600/20 hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-microphone"></i>
+                        <span>Start 1-Min Answer</span>
+                    </button>
+                    <button id="stopBtn" disabled class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 px-5 py-3 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        <i class="fa-solid fa-stop"></i>
+                        <span>Done</span>
+                    </button>
+                    <button id="resetBtn" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-3 rounded-xl font-medium transition-colors">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Response Box & Live Speech Recognition Status -->
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between items-center">
+                    <label for="transcriptTextarea" class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        <span>Your Response Speech / Text</span>
+                        <span id="speechBadge" class="hidden text-[11px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-normal items-center gap-1">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Listening...
+                        </span>
+                    </label>
+                    <span id="wordCount" class="text-xs text-slate-400">0 words</span>
+                </div>
+                
+                <textarea id="transcriptTextarea" rows="5" 
+                    placeholder="Press 'Start 1-Min Answer' to dictate your speech live, or type your response directly into this text area..." 
+                    class="w-full p-4 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 text-slate-800 placeholder-slate-400 resize-y text-base transition-all"></textarea>
+            </div>
+
+            <!-- Submit for AI Evaluation -->
+            <div class="flex justify-end">
+                <button id="evaluateBtn" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-3.5 rounded-xl font-semibold shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Get AI Feedback & Score</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Feedback Display Section -->
+        <section id="feedbackSection" class="hidden bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col gap-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-square-poll-vertical text-teal-600"></i> Performance Breakdown
+                </h3>
+                <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full font-medium">Evaluation Complete</span>
+            </div>
+
+            <!-- Score Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Content & Vocab Score Card -->
+                <div class="bg-teal-50/50 border border-teal-100 rounded-xl p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-teal-700">Content & Vocabulary</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Topic relevance, ideas, & lexical range</p>
+                    </div>
+                    <div class="text-right">
+                        <span id="contentScore" class="text-3xl font-extrabold text-teal-700">0</span>
+                        <span class="text-sm font-semibold text-teal-600">/10</span>
+                    </div>
+                </div>
+
+                <!-- Grammar & Lexical Score Card -->
+                <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-indigo-700">Grammar & Structure</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Accuracy, tense usage, & sentence structure</p>
+                    </div>
+                    <div class="text-right">
+                        <span id="grammarScore" class="text-3xl font-extrabold text-indigo-700">0</span>
+                        <span class="text-sm font-semibold text-indigo-600">/10</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overview Feedback -->
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/80">
+                <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">General Feedback</h4>
+                <p id="overallFeedback" class="text-sm text-slate-700 leading-relaxed"></p>
+            </div>
+
+            <!-- Grammar Corrections & Improvements Table -->
+            <div>
+                <h4 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-amber-500"></i> Grammar Corrections & Detailed Suggestions
+                </h4>
+                <div id="correctionsContainer" class="flex flex-col gap-3">
+                    <!-- Dynamic Correction items will be injected here -->
+                </div>
+            </div>
+
+            <!-- Vocabulary Enhancements -->
+            <div class="bg-amber-50/60 rounded-xl p-4 border border-amber-200/60">
+                <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-lightbulb"></i> Recommended Plastic Surgery Vocabulary
+                </h4>
+                <ul id="vocabSuggestions" class="list-disc list-inside text-xs text-amber-900 space-y-1.5">
+                    <!-- Dynamic suggestions injected here -->
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 mt-8">
+        Designed for English Speaking Practice &bull; Powered by Gemini AI
+    </footer>
+
+    <script>
+        // Question Bank
+        const questions = [
+            "Would you ever have plastic surgery?",
+            "Do you know anybody who has had plastic surgery?",
+            "What are some of the dangers of plastic surgery?",
+            "Do you think plastic surgery is a good thing?",
+            "Why are more people getting plastic surgery?",
+            "Should plastic surgery be banned?"
+        ];
+
+        // State Variables
+        let currentQuestion = "";
+        let timeLeft = 60;
+        let timerInterval = null;
+        let recognition = null;
+        let isRecording = false;
+
+        // DOM Elements
+        const questionText = document.getElementById('questionText');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerCircle = document.getElementById('timerCircle');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const transcriptTextarea = document.getElementById('transcriptTextarea');
+        const speechBadge = document.getElementById('speechBadge');
+        const wordCount = document.getElementById('wordCount');
+        const evaluateBtn = document.getElementById('evaluateBtn');
+        const feedbackSection = document.getElementById('feedbackSection');
+
+        // Circular Timer Constants
+        const circumference = 2 * Math.PI * 56; // radius 56
+        timerCircle.style.strokeDasharray = `${circumference}`;
+
+        // Initialize Web Speech API
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = (event) => {
+                    let transcript = '';
+                    for (let i = 0; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript;
+                    }
+                    transcriptTextarea.value = transcript;
+                    updateWordCount();
+                };
+
+                recognition.onerror = (event) => {
+                    console.warn("Speech recognition error:", event.error);
+                };
+
+                recognition.onend = () => {
+                    if (isRecording) {
+                        try { recognition.start(); } catch(e) {}
+                    } else {
+                        speechBadge.classList.add('hidden');
+                        speechBadge.classList.remove('flex');
+                    }
+                };
+            }
+        }
+
+        // Pick Random Question
+        function setRandomQuestion() {
+            let availableQuestions = questions.filter(q => q !== currentQuestion);
+            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            currentQuestion = availableQuestions[randomIndex];
+            questionText.textContent = `"${currentQuestion}"`;
+        }
+
+        // Update Word Count
+        function updateWordCount() {
+            const text = transcriptTextarea.value.trim();
+            const count = text ? text.split(/\s+/).length : 0;
+            wordCount.textContent = `${count} ${count === 1 ? 'word' : 'words'}`;
+        }
+
+        // Timer Functions
+        function setTimerProgress(seconds) {
+            const offset = circumference - (seconds / 60) * circumference;
+            timerCircle.style.strokeDashoffset = offset;
+            timerDisplay.textContent = seconds;
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            isRecording = true;
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+
+            if (recognition) {
+                try {
+                    recognition.start();
+                    speechBadge.classList.remove('hidden');
+                    speechBadge.classList.add('flex');
+                } catch (e) {
+                    console.warn("Speech recognition couldn't start:", e);
+                }
+            }
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                setTimerProgress(timeLeft);
+
+                if (timeLeft <= 0) {
+                    stopTimer();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isRecording = false;
+
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+
+            if (recognition) {
+                try { recognition.stop(); } catch(e) {}
+            }
+            speechBadge.classList.add('hidden');
+            speechBadge.classList.remove('flex');
+        }
+
+        function resetTimer() {
+            stopTimer();
+            timeLeft = 60;
+            setTimerProgress(60);
+        }
+
+        // Fetch AI Feedback from Gemini API
+        async function fetchAIEvaluation(question, answer) {
+            const apiKey = ""; // Canvas auto-injects key at runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const systemInstruction = `You are an expert IELTS speaking examiner. Evaluate the student's answer to a practice speaking question. Provide feedback in strictly structured JSON format matching the schema provided.`;
+
+            const prompt = `Topic Question: "${question}"
+Student's Answer: "${answer}"
+
+Evaluate the student's spoken response. Focus on:
+1. Content and Vocabulary Score (out of 10)
+2. Grammar and Lexical Score (out of 10)
+3. General Summary Feedback
+4. Detailed grammar mistakes identified, explanation, and corrected re-phrasing.
+5. High-level topic vocabulary suggestions relevant to plastic surgery (e.g., cosmetic procedure, standard of beauty, self-esteem, invasive surgery).`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            contentScore: { type: "NUMBER" },
+                            grammarScore: { type: "NUMBER" },
+                            overallFeedback: { type: "STRING" },
+                            corrections: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        original: { type: "STRING" },
+                                        correction: { type: "STRING" },
+                                        explanation: { type: "STRING" }
+                                    },
+                                    propertyOrdering: ["original", "correction", "explanation"]
+                                }
+                            },
+                            suggestedVocab: {
+                                type: "ARRAY",
+                                items: { type: "STRING" }
+                            }
+                        },
+                        propertyOrdering: ["contentScore", "grammarScore", "overallFeedback", "corrections", "suggestedVocab"]
+                    }
+                }
+            };
+
+            // Fetch with Exponential Backoff
+            let delay = 1000;
+            for (let retries = 0; retries < 3; retries++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                        return JSON.parse(resultText);
+                    }
+                } catch (err) {
+                    // Retry silently
+                }
+                await new Promise(res => setTimeout(res, delay));
+                delay *= 2;
+            }
+            throw new Error("Unable to evaluate response at this time. Please try again.");
+        }
+
+        // Render Evaluation UI
+        function renderFeedback(data) {
+            document.getElementById('contentScore').textContent = data.contentScore ?? 0;
+            document.getElementById('grammarScore').textContent = data.grammarScore ?? 0;
+            document.getElementById('overallFeedback').textContent = data.overallFeedback || "Good attempt! Keep practicing your fluency and structure.";
+
+            // Corrections
+            const container = document.getElementById('correctionsContainer');
+            container.innerHTML = '';
+
+            if (data.corrections && data.corrections.length > 0) {
+                data.corrections.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = "bg-rose-50/50 border border-rose-100 rounded-xl p-4 flex flex-col gap-1.5 text-xs";
+                    div.innerHTML = `
+                        <div class="flex items-start gap-2">
+                            <span class="font-bold text-rose-600 uppercase tracking-wide text-[10px] bg-rose-100 px-1.5 py-0.5 rounded shrink-0 mt-0.5">Original</span>
+                            <p class="text-slate-700 font-mono text-[11px]">${escapeHtml(item.original)}</p>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="font-bold text-emerald-600 uppercase tracking-wide text-[10px] bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 mt-0.5">Better</span>
+                            <p class="text-slate-800 font-semibold">${escapeHtml(item.correction)}</p>
+                        </div>
+                        <p class="text-slate-500 mt-1 italic pl-1 border-l-2 border-amber-300">${escapeHtml(item.explanation)}</p>
+                    `;
+                    container.appendChild(div);
+                });
+            } else {
+                container.innerHTML = `<p class="text-xs text-slate-500 italic bg-slate-50 p-3 rounded-lg">No major grammar mistakes detected! Great job.</p>`;
+            }
+
+            // Suggested Vocab
+            const vocabList = document.getElementById('vocabSuggestions');
+            vocabList.innerHTML = '';
+            if (data.suggestedVocab && data.suggestedVocab.length > 0) {
+                data.suggestedVocab.forEach(term => {
+                    const li = document.createElement('li');
+                    li.textContent = term;
+                    vocabList.appendChild(li);
+                });
+            } else {
+                vocabList.innerHTML = `<li>Try adding advanced terms like "cosmetic procedure", "body dysmorphia", or "aesthetic surgery".</li>`;
+            }
+
+            feedbackSection.classList.remove('hidden');
+            feedbackSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Utility: HTML Escaping
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // Event Listeners
+        nextQuestionBtn.addEventListener('click', () => {
+            setRandomQuestion();
+            resetTimer();
+            feedbackSection.classList.add('hidden');
+        });
+
+        startBtn.addEventListener('click', startTimer);
+        stopBtn.addEventListener('click', stopTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        transcriptTextarea.addEventListener('input', updateWordCount);
+
+        evaluateBtn.addEventListener('click', async () => {
+            const answer = transcriptTextarea.value.trim();
+            if (!answer) {
+                alert("Please record or type an answer before requesting feedback.");
+                return;
+            }
+
+            // Disable button loading state
+            evaluateBtn.disabled = true;
+            evaluateBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Analyzing Answer...`;
+
+            try {
+                const result = await fetchAIEvaluation(currentQuestion, answer);
+                renderFeedback(result);
+            } catch (err) {
+                alert("Evaluation error: " + err.message);
+            } finally {
+                evaluateBtn.disabled = false;
+                evaluateBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Get AI Feedback & Score</span>`;
+            }
+        });
+
+        // Initialize App on Page Load
+        window.onload = () => {
+            initSpeechRecognition();
+            setRandomQuestion();
+            setTimerProgress(60);
+        };
+    </script>
+</body>
+</html>
